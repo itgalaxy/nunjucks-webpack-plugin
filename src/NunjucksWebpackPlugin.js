@@ -124,8 +124,6 @@ class NunjucksWebpackPlugin {
             Object.keys(renderTemplates).forEach((dest) => {
                 const templateObj = renderTemplates[dest];
 
-                compilation.assets[dest] = templateObj.rawSource;
-
                 if (templateObj.writeToFileWhenMemoryFs && isMemoryFileSystem) {
                     promises.push(new Promise(
                         (resolve, reject) => {
@@ -140,6 +138,8 @@ class NunjucksWebpackPlugin {
                             });
                         }
                     ));
+                } else {
+                    compilation.assets[dest] = templateObj.rawSource;
                 }
             });
 

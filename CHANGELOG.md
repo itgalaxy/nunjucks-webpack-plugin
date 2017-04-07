@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+# Head
+
+-   Fixed: don't write templates in memory filesystem when they writes on disk.
+
 # 2.0.0 - 2017-04-07
 
 -   Added: support `writeToFileWhenMemoryFs` option for each template.
