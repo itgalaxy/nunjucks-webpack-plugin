@@ -31,11 +31,15 @@ class NunjucksWebpackPlugin {
         if (!Array.isArray(template)) {
             this.options.template = [template];
         }
+
+        this.startTime = Date.now();
+        this.prevTimestamps = {};
     }
 
     apply(compiler) {
         const assets = {};
         const fileDependencies = [];
+        const isWatch = compiler.options.watch;
 
         let output = compiler.options.output.path;
 
@@ -57,6 +61,15 @@ class NunjucksWebpackPlugin {
         compiler.plugin('emit', (compilation, callback) => {
             nunjucks.configure(this.options.configure.path, this.options.configure.options);
 
+            const changedFiles = Object
+                .keys(compilation.fileTimestamps)
+                .filter(
+                    (watchfile) => (this.prevTimestamps[watchfile] || this.startTime)
+                    < (compilation.fileTimestamps[watchfile] || Infinity)
+                );
+
+            this.prevTimestamps = compilation.fileTimestamps;
+
             const {
                 template: templates,
                 context: globalContext,
@@ -73,14 +86,18 @@ class NunjucksWebpackPlugin {
                     throw new Error('Each template should have `to` option');
                 }
 
+                fileDependencies.push(template.from);
+
+                if (isWatch && changedFiles.indexOf(template.from) === -1) {
+                    return;
+                }
+
                 const localContext = template.context ? template.context : globalContext;
                 const localCallback = template.callback ? template.callback : globalCallback;
 
                 const res = nunjucks.render(template.from, Object.assign({}, {
                     assets
                 }, localContext), localCallback);
-
-                fileDependencies.push(template.from);
 
                 let webpackTo = template.to;
 
