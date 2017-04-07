@@ -86,7 +86,9 @@ class NunjucksWebpackPlugin {
                     throw new Error('Each template should have `to` option');
                 }
 
-                fileDependencies.push(template.from);
+                if (fileDependencies.indexOf(template.from) === -1) {
+                    fileDependencies.push(template.from);
+                }
 
                 if (isWatch && changedFiles.indexOf(template.from) === -1) {
                     return;
