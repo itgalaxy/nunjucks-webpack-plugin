@@ -121,7 +121,7 @@ class NunjucksWebpackPlugin {
 
                 compilation.assets[dest] = templateSource;
 
-                if (isMemoryFileSystem) {
+                if (this.options.writeToFileWhenMemoryFs && isMemoryFileSystem) {
                     promises.push(new Promise(
                         (resolve, reject) => {
                             const fileDest = path.join(output, dest);
