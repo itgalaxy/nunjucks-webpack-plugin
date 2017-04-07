@@ -108,8 +108,10 @@ class NunjucksWebpackPlugin {
                 }
 
                 renderTemplates[webpackTo] = {
-                    size: () => res.length,
-                    source: () => res
+                    source: {
+                        size: () => res.length,
+                        source: () => res
+                    }
                 };
             });
 
@@ -119,7 +121,7 @@ class NunjucksWebpackPlugin {
             Object.keys(renderTemplates).forEach((dest) => {
                 const templateSource = renderTemplates[dest];
 
-                compilation.assets[dest] = templateSource;
+                compilation.assets[dest] = templateSource.source;
 
                 if (this.options.writeToFileWhenMemoryFs && isMemoryFileSystem) {
                     promises.push(new Promise(
