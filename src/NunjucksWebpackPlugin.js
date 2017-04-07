@@ -108,10 +108,13 @@ class NunjucksWebpackPlugin {
                 }
 
                 renderTemplates[webpackTo] = {
-                    source: {
+                    rawSource: {
                         size: () => res.length,
                         source: () => res
-                    }
+                    },
+                    writeToFileWhenMemoryFs: template.writeToFileWhenMemoryFs
+                        ? template.writeToFileWhenMemoryFs
+                        : this.options.writeToFileWhenMemoryFs
                 };
             });
 
@@ -119,16 +122,16 @@ class NunjucksWebpackPlugin {
             const promises = [];
 
             Object.keys(renderTemplates).forEach((dest) => {
-                const templateSource = renderTemplates[dest];
+                const templateObj = renderTemplates[dest];
 
-                compilation.assets[dest] = templateSource.source;
+                compilation.assets[dest] = templateObj.rawSource;
 
-                if (this.options.writeToFileWhenMemoryFs && isMemoryFileSystem) {
+                if (templateObj.writeToFileWhenMemoryFs && isMemoryFileSystem) {
                     promises.push(new Promise(
                         (resolve, reject) => {
                             const fileDest = path.join(output, dest);
 
-                            return fs.writeFile(fileDest, templateSource.source(), (error) => {
+                            return fs.writeFile(fileDest, templateObj.rawSource.source(), (error) => {
                                 if (error) {
                                     return reject(error);
                                 }

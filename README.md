@@ -38,11 +38,13 @@ export default {
     
     -   `to` - (require) `string` destination path include filename and extension (relative `output` webpack option).
     
-    -   `context` - (optional) instead global context (see above), 
+    -   `context` - (optional) instead global `context` (see above), 
         see [render](https://mozilla.github.io/nunjucks/api.html#render) second argument.
     
-    -   `callback` - (optional) instead global callback (see above), 
+    -   `callback` - (optional) instead global `callback` (see above), 
         see [render](https://mozilla.github.io/nunjucks/api.html#render) third argument.
+
+    -   `writeToFileWhenMemoryFs` - (optional) instead global `writeToFileWhenMemoryFs` (see above), 
 
 -   `context` - (optional) use if template `context` is null or undefined, 
     see [render](https://mozilla.github.io/nunjucks/api.html#render) second argument.
