@@ -13,7 +13,7 @@ class NunjucksWebpackPlugin {
             context: {},
             template: null,
             to: null,
-            writeToFileWhenMemoryFs: true
+            writeToFileWhenMemoryFs: false
         }, options);
 
         const { template } = this.options;

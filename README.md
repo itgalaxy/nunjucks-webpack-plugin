@@ -52,7 +52,7 @@ export default {
 
 -   `configure` - (optional) see [configure](https://mozilla.github.io/nunjucks/api.html#configure) options.
 
--   `writeToFileWhenMemoryFs` - (optional, default: true) - write templates to disk when using Memory filesystem,
+-   `writeToFileWhenMemoryFs` - (optional, default: false) - write templates to disk when using Memory filesystem,
     useful when use `watch`.
 
 ## Contribution

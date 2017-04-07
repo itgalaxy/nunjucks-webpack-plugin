@@ -6,6 +6,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 # Head
 
+-   Changed: `writeToFileWhenMemoryFs` default false.
 -   Fixed: options `writeToFileWhenMemoryFs` now works right.
 -   Fixed: memory leak in watch mode.
 -   Fixed: rendered templates don't overwrite if not changed source.
