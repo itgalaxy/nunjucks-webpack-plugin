@@ -30,6 +30,26 @@ export default {
 };
 ```
 
+It is possible to use multiple templates:
+
+```js
+import NunjucksWebpackPlugin from 'nunjucks-webpack-plugin';
+
+export default {
+  plugins: [
+    new NunjucksWebpackPlugin({
+        template: [{
+            from: '/path/to/template.njk',
+            to: 'template.html'
+        }, {
+            from: '/path/to/next-template.njk',
+            to: 'next-template.html'
+        }]
+    })
+  ]
+};
+```
+
 ## Options
 
 -   `template` - (require) `object` or `array` paths (`from`, `to` and etc.) to templates.
