@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+# Head
+
+-   Fixed: now templates is written at the first start in `watch`.
+
 # 2.0.1 - 2017-04-07
 
 -   Fixed: don't write templates in memory filesystem when they writes on disk.

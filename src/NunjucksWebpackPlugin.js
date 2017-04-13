@@ -86,12 +86,15 @@ class NunjucksWebpackPlugin {
                     throw new Error('Each template should have `to` option');
                 }
 
-                if (fileDependencies.indexOf(template.from) === -1) {
-                    fileDependencies.push(template.from);
+                if (isWatch
+                    && fileDependencies.indexOf(template.from) !== -1
+                    && changedFiles.indexOf(template.from) === -1
+                ) {
+                    return;
                 }
 
-                if (isWatch && changedFiles.indexOf(template.from) === -1) {
-                    return;
+                if (fileDependencies.indexOf(template.from) === -1) {
+                    fileDependencies.push(template.from);
                 }
 
                 const localContext = template.context ? template.context : globalContext;
