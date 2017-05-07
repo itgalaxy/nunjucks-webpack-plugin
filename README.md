@@ -4,6 +4,7 @@
 [![Travis Build Status](https://img.shields.io/travis/itgalaxy/nunjucks-webpack-plugin/master.svg?label=build)](https://travis-ci.org/itgalaxy/nunjucks-webpack-plugin) 
 [![devDependencies Status](https://david-dm.org/itgalaxy/nunjucks-webpack-plugin/dev-status.svg)](https://david-dm.org/itgalaxy/nunjucks-webpack-plugin?type=dev)
 [![peerDependencies Status](https://david-dm.org/itgalaxy/nunjucks-webpack-plugin/peer-status.svg)](https://david-dm.org/itgalaxy/nunjucks-webpack-plugin?type=peer)
+[![Greenkeeper badge](https://badges.greenkeeper.io/itgalaxy/nunjucks-webpack-plugin.svg)](https://greenkeeper.io/)
 
 A webpack plugin for nunjucks.
 
