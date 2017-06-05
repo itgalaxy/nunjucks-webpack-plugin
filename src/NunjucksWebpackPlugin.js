@@ -4,17 +4,21 @@ const nunjucks = require('nunjucks');
 
 class NunjucksWebpackPlugin {
     constructor(options = {}) {
-        this.options = Object.assign({}, {
-            callback: null,
-            configure: {
-                options: {},
-                path: ''
+        this.options = Object.assign(
+            {},
+            {
+                callback: null,
+                configure: {
+                    options: {},
+                    path: ''
+                },
+                context: {},
+                template: null,
+                to: null,
+                writeToFileWhenMemoryFs: false
             },
-            context: {},
-            template: null,
-            to: null,
-            writeToFileWhenMemoryFs: false
-        }, options);
+            options
+        );
 
         const { template } = this.options;
 
@@ -22,8 +26,11 @@ class NunjucksWebpackPlugin {
             throw new Error('Options `template` must be a string or an array');
         }
 
-        if ((Array.isArray(template) && template.length === 0)
-            || (template !== null && typeof template === 'object' && Object.keys(template).length === 0)
+        if (
+            (Array.isArray(template) && template.length === 0) ||
+            (template !== null &&
+                typeof template === 'object' &&
+                Object.keys(template).length === 0)
         ) {
             throw new Error('Options `template` should be not empty');
         }
@@ -43,30 +50,36 @@ class NunjucksWebpackPlugin {
 
         let output = compiler.options.output.path;
 
-        if (output === '/'
-            && compiler.options.devServer
-            && compiler.options.devServer.outputPath
+        if (
+            output === '/' &&
+            compiler.options.devServer &&
+            compiler.options.devServer.outputPath
         ) {
             output = compiler.options.devServer.outputPath;
         }
 
-        compiler.plugin('compilation', (compilation) => {
+        compiler.plugin('compilation', compilation => {
             compilation.plugin('module-asset', (module, hashedFile) => {
-                const file = path.join(path.dirname(hashedFile), path.basename(module.userRequest));
+                const file = path.join(
+                    path.dirname(hashedFile),
+                    path.basename(module.userRequest)
+                );
 
                 assets[file] = path.join(output, hashedFile);
             });
         });
 
         compiler.plugin('emit', (compilation, callback) => {
-            nunjucks.configure(this.options.configure.path, this.options.configure.options);
+            nunjucks.configure(
+                this.options.configure.path,
+                this.options.configure.options
+            );
 
-            const changedFiles = Object
-                .keys(compilation.fileTimestamps)
-                .filter(
-                    (watchfile) => (this.prevTimestamps[watchfile] || this.startTime)
-                    < (compilation.fileTimestamps[watchfile] || Infinity)
-                );
+            const changedFiles = Object.keys(compilation.fileTimestamps).filter(
+                watchfile =>
+                    (this.prevTimestamps[watchfile] || this.startTime) <
+                    (compilation.fileTimestamps[watchfile] || Infinity)
+            );
 
             this.prevTimestamps = compilation.fileTimestamps;
 
@@ -77,7 +90,7 @@ class NunjucksWebpackPlugin {
             } = this.options;
             const renderTemplates = {};
 
-            templates.forEach((template) => {
+            templates.forEach(template => {
                 if (!template.from) {
                     throw new Error('Each template should have `from` option');
                 }
@@ -86,9 +99,10 @@ class NunjucksWebpackPlugin {
                     throw new Error('Each template should have `to` option');
                 }
 
-                if (isWatch
-                    && fileDependencies.indexOf(template.from) !== -1
-                    && changedFiles.indexOf(template.from) === -1
+                if (
+                    isWatch &&
+                    fileDependencies.indexOf(template.from) !== -1 &&
+                    changedFiles.indexOf(template.from) === -1
                 ) {
                     return;
                 }
@@ -97,12 +111,24 @@ class NunjucksWebpackPlugin {
                     fileDependencies.push(template.from);
                 }
 
-                const localContext = template.context ? template.context : globalContext;
-                const localCallback = template.callback ? template.callback : globalCallback;
+                const localContext = template.context
+                    ? template.context
+                    : globalContext;
+                const localCallback = template.callback
+                    ? template.callback
+                    : globalCallback;
 
-                const res = nunjucks.render(template.from, Object.assign({}, {
-                    assets
-                }, localContext), localCallback);
+                const res = nunjucks.render(
+                    template.from,
+                    Object.assign(
+                        {},
+                        {
+                            assets
+                        },
+                        localContext
+                    ),
+                    localCallback
+                );
 
                 let webpackTo = template.to;
 
@@ -121,26 +147,32 @@ class NunjucksWebpackPlugin {
                 };
             });
 
-            const isMemoryFileSystem = compiler.outputFileSystem.constructor.name === 'MemoryFileSystem';
+            const isMemoryFileSystem =
+                compiler.outputFileSystem.constructor.name ===
+                'MemoryFileSystem';
             const promises = [];
 
-            Object.keys(renderTemplates).forEach((dest) => {
+            Object.keys(renderTemplates).forEach(dest => {
                 const templateObj = renderTemplates[dest];
 
                 if (templateObj.writeToFileWhenMemoryFs && isMemoryFileSystem) {
-                    promises.push(new Promise(
-                        (resolve, reject) => {
+                    promises.push(
+                        new Promise((resolve, reject) => {
                             const fileDest = path.join(output, dest);
 
-                            return fs.writeFile(fileDest, templateObj.rawSource.source(), (error) => {
-                                if (error) {
-                                    return reject(error);
-                                }
+                            return fs.writeFile(
+                                fileDest,
+                                templateObj.rawSource.source(),
+                                error => {
+                                    if (error) {
+                                        return reject(error);
+                                    }
 
-                                return resolve();
-                            });
-                        }
-                    ));
+                                    return resolve();
+                                }
+                            );
+                        })
+                    );
                 } else {
                     compilation.assets[dest] = templateObj.rawSource;
                 }
@@ -151,7 +183,7 @@ class NunjucksWebpackPlugin {
         });
 
         compiler.plugin('after-emit', (compilation, callback) => {
-            fileDependencies.forEach((file) => {
+            fileDependencies.forEach(file => {
                 if (compilation.fileDependencies.indexOf(file) === -1) {
                     compilation.fileDependencies.push(file);
                 }
