@@ -1,6 +1,6 @@
 {
     "name": "nunjucks-webpack-plugin",
-    "version": "2.0.2",
+    "version": "3.0.0",
     "description": "A webpack plugin for nunjucks",
     "keywords": [
         "webpack",
@@ -32,6 +32,9 @@
         "src",
         "!**/__tests__"
     ],
+    "engines": {
+        "node": ">= 4.3 < 5.0.0 || >= 5.10"
+    },
     "dependencies": {},
     "devDependencies": {
         "ava": "^0.19.0",
@@ -62,30 +65,26 @@
         "remark-cli": "^3.0.0",
         "remark-preset-lint-itgalaxy": "^6.0.0",
         "tempy": "^0.1.0",
-        "webpack": "^2.2.1",
+        "webpack": "^3.0.0",
         "husky": "^0.13.0",
         "lint-staged": "^3.6.0",
         "prettier": "^1.4.2"
     },
     "peerDependencies": {
         "nunjucks": "^3.0.0",
-        "webpack": "^1.13.2 || ^2.2.1"
+        "webpack": "^1.13.2 || ^2.0.0 || ^3.0.0"
     },
     "scripts": {
         "precommit": "lint-staged",
-
         "lint:eslint": "eslint . --cache --ignore-path .gitignore",
         "lint:package": "ajv -s ./node_modules/package-schema/schema.json -d package --errors=text",
         "lint:remark": "remark . -i .gitignore -f -q",
         "lint": "npm-run-all -l --parallel lint:*",
-
         "formatter:prettier": "eslint . --fix --ignore-path .gitignore",
         "formatter": "npm-run-all -l -p formatter:**",
-
         "pretest": "npm run lint",
         "ava": "nyc ava --verbose \"src/**/__tests__/*.js\"",
         "test": "npm run ava",
-
         "release": "npmpub"
     },
     "ava": {
