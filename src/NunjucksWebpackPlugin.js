@@ -1,6 +1,6 @@
-const fs = require('fs');
-const path = require('path');
-const nunjucks = require('nunjucks');
+const fs = require("fs");
+const path = require("path");
+const nunjucks = require("nunjucks");
 
 class NunjucksWebpackPlugin {
     constructor(options = {}) {
@@ -10,7 +10,7 @@ class NunjucksWebpackPlugin {
                 callback: null,
                 configure: {
                     options: {},
-                    path: ''
+                    path: ""
                 },
                 context: {},
                 template: null,
@@ -23,16 +23,16 @@ class NunjucksWebpackPlugin {
         const { template } = this.options;
 
         if (!template) {
-            throw new Error('Options `template` must be a string or an array');
+            throw new Error("Options `template` must be a string or an array");
         }
 
         if (
             (Array.isArray(template) && template.length === 0) ||
             (template !== null &&
-                typeof template === 'object' &&
+                typeof template === "object" &&
                 Object.keys(template).length === 0)
         ) {
-            throw new Error('Options `template` should be not empty');
+            throw new Error("Options `template` should be not empty");
         }
 
         if (!Array.isArray(template)) {
@@ -51,15 +51,15 @@ class NunjucksWebpackPlugin {
         let output = compiler.options.output.path;
 
         if (
-            output === '/' &&
+            output === "/" &&
             compiler.options.devServer &&
             compiler.options.devServer.outputPath
         ) {
             output = compiler.options.devServer.outputPath;
         }
 
-        compiler.plugin('compilation', compilation => {
-            compilation.plugin('module-asset', (module, hashedFile) => {
+        compiler.plugin("compilation", compilation => {
+            compilation.plugin("module-asset", (module, hashedFile) => {
                 const file = path.join(
                     path.dirname(hashedFile),
                     path.basename(module.userRequest)
@@ -69,7 +69,7 @@ class NunjucksWebpackPlugin {
             });
         });
 
-        compiler.plugin('emit', (compilation, callback) => {
+        compiler.plugin("emit", (compilation, callback) => {
             nunjucks.configure(
                 this.options.configure.path,
                 this.options.configure.options
@@ -92,11 +92,11 @@ class NunjucksWebpackPlugin {
 
             templates.forEach(template => {
                 if (!template.from) {
-                    throw new Error('Each template should have `from` option');
+                    throw new Error("Each template should have `from` option");
                 }
 
                 if (!template.to) {
-                    throw new Error('Each template should have `to` option');
+                    throw new Error("Each template should have `to` option");
                 }
 
                 if (
@@ -149,7 +149,7 @@ class NunjucksWebpackPlugin {
 
             const isMemoryFileSystem =
                 compiler.outputFileSystem.constructor.name ===
-                'MemoryFileSystem';
+                "MemoryFileSystem";
             const promises = [];
 
             Object.keys(renderTemplates).forEach(dest => {
@@ -182,7 +182,7 @@ class NunjucksWebpackPlugin {
             return Promise.all(promises).then(() => callback());
         });
 
-        compiler.plugin('after-emit', (compilation, callback) => {
+        compiler.plugin("after-emit", (compilation, callback) => {
             fileDependencies.forEach(file => {
                 if (compilation.fileDependencies.indexOf(file) === -1) {
                     compilation.fileDependencies.push(file);
