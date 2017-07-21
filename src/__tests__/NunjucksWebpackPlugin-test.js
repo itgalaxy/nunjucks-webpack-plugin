@@ -1,3 +1,4 @@
+import * as nunjucks from "nunjucks";
 import NunjucksWebpackPlugin from "../NunjucksWebpackPlugin";
 import fs from "fs";
 import path from "path";
@@ -174,6 +175,47 @@ test("should execute successfully when option `template` is object and `template
             const contents = data.toString();
 
             t.true(contents.trim() === "12345");
+
+            return true;
+        });
+    });
+});
+
+test("should execute successfully when provided a Nunjucks environment", t => {
+    const env = new nunjucks.Environment(
+        new nunjucks.FileSystemLoader(fixturesDir)
+    );
+
+    // Add test filter
+    env.addFilter("testFilter", () => "success");
+
+    const tmpDirectory = tempy.directory();
+    const templateName = "test3.njk";
+    const webpackConfig = Object.assign({}, webpackConfigBase, {
+        output: {
+            filename: "bundle.js",
+            path: tmpDirectory
+        },
+        plugins: [
+            new NunjucksWebpackPlugin({
+                environment: env,
+                template: {
+                    from: templateName,
+                    to: path.basename(templateName, ".njk")
+                }
+            })
+        ]
+    });
+
+    return pify(webpack)(webpackConfig).then(stats => {
+        t.true(stats.compilation.errors.length === 0, "no compilation error");
+
+        return pify(fs.readFile)(
+            path.join(tmpDirectory, path.basename(templateName, ".njk"))
+        ).then(data => {
+            const contents = data.toString();
+
+            t.true(contents.trim() === "success");
 
             return true;
         });
