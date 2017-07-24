@@ -13,6 +13,7 @@ class NunjucksWebpackPlugin {
                     path: ""
                 },
                 context: {},
+                environment: false,
                 template: null,
                 to: null,
                 writeToFileWhenMemoryFs: false
@@ -70,10 +71,12 @@ class NunjucksWebpackPlugin {
         });
 
         compiler.plugin("emit", (compilation, callback) => {
-            nunjucks.configure(
-                this.options.configure.path,
-                this.options.configure.options
-            );
+            const env =
+                this.options.environment ||
+                nunjucks.configure(
+                    this.options.configure.path,
+                    this.options.configure.options
+                );
 
             const changedFiles = Object.keys(compilation.fileTimestamps).filter(
                 watchfile =>
@@ -118,7 +121,7 @@ class NunjucksWebpackPlugin {
                     ? template.callback
                     : globalCallback;
 
-                const res = nunjucks.render(
+                const res = env.render(
                     template.from,
                     Object.assign(
                         {},
