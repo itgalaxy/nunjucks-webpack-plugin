@@ -35,7 +35,9 @@
   "engines": {
     "node": ">= 4.3 < 5.0.0 || >= 5.10"
   },
-  "dependencies": {},
+  "dependencies": {
+    "fs-extra": "^4.0.2"
+  },
   "devDependencies": {
     "ava": "^0.23.0",
     "babel-preset-env": "^1.6.0",

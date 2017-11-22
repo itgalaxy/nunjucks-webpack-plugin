@@ -1,6 +1,6 @@
 "use strict";
 
-const fs = require("fs");
+const fs = require("fs-extra");
 const path = require("path");
 const nunjucks = require("nunjucks");
 
@@ -83,19 +83,9 @@ class NunjucksWebpackPlugin {
         compilation.assets[webpackTo] = source;
 
         if (template.writeToFileEmit) {
-          promises.push(
-            new Promise((resolve, reject) => {
-              const fileDest = path.join(output, webpackTo);
+          const fileDest = path.join(output, webpackTo);
 
-              return fs.writeFile(fileDest, source.source(), error => {
-                if (error) {
-                  return reject(error);
-                }
-
-                return resolve();
-              });
-            })
-          );
+          promises.push(fs.outputFile(fileDest, source.source()));
         }
       });
 

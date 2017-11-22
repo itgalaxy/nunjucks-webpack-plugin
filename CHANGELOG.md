@@ -6,6 +6,7 @@ This project adheres to [Semantic Versioning](http://semver.org).
 
 ## Head
 
+* Fixed: use `fs-extra` to output file when `writeToFileEmit: true`.
 * Changed: rename option from `writeToFileWhenMemoryFs` to `writeToFileEmit`.
 * Changed: all `templates` now always emitted in webpack assets.
 * Changed: rename options from `template` to `templates`.
