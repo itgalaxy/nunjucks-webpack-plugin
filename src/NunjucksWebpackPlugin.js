@@ -60,13 +60,10 @@ class NunjucksWebpackPlugin {
           fileDependencies.push(template.from);
         }
 
-        const localContext = template.context ? template.context : null;
-        const localCallback = template.callback ? template.callback : null;
-
         const res = nunjucks.render(
           template.from,
-          Object.assign({}, localContext),
-          localCallback
+          template.context ? template.context : null,
+          template.callback ? template.callback : null
         );
 
         let webpackTo = template.to;
