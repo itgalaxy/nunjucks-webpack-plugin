@@ -19,7 +19,7 @@ test("should execute successfully when option `template` is object", t => {
         },
         plugins: [
             new NunjucksWebpackPlugin({
-                template: {
+                templates: {
                     from: path.join(fixturesDir, templateName),
                     to: path.basename(templateName, ".njk")
                 }
@@ -53,7 +53,7 @@ test("should execute successfully when option `template` is array", t => {
         },
         plugins: [
             new NunjucksWebpackPlugin({
-                template: [
+                templates: [
                     {
                         from: path.join(fixturesDir, templateName),
                         to: path.basename(templateName, ".njk")
@@ -120,7 +120,7 @@ test("should execute successfully when option `template` and `context` are passe
                         }
                     ]
                 },
-                template: {
+                templates: {
                     from: path.join(fixturesDir, templateName),
                     to: path.basename(templateName, ".njk")
                 }
@@ -154,7 +154,7 @@ test("should execute successfully when option `template` is object and `template
         },
         plugins: [
             new NunjucksWebpackPlugin({
-                template: {
+                templates: {
                     from: path.join(fixturesDir, templateName),
                     to: path.join(
                         tmpDirectory,

@@ -22,7 +22,7 @@ import NunjucksWebpackPlugin from 'nunjucks-webpack-plugin';
 export default {
   plugins: [
     new NunjucksWebpackPlugin({
-        template: {
+        templates: {
             from: '/path/to/template.njk',
             to: 'template.html'
         }
@@ -39,7 +39,7 @@ import NunjucksWebpackPlugin from 'nunjucks-webpack-plugin';
 export default {
   plugins: [
     new NunjucksWebpackPlugin({
-        template: [{
+        templates: [{
             from: '/path/to/template.njk',
             to: 'template.html'
         }, {
@@ -53,7 +53,7 @@ export default {
 
 ## Options
 
--   `template` - (require) `object` or `array` paths (`from`, `to` and etc.) to templates.
+-   `templates` - (require) `object` or `array` paths (`from`, `to` and etc.) to templates.
 
     -   `from` - (require) `string` path to template.
     

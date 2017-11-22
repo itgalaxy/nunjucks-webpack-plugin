@@ -13,30 +13,30 @@ class NunjucksWebpackPlugin {
                     path: ""
                 },
                 context: {},
-                template: null,
+                templates: null,
                 to: null,
                 writeToFileWhenMemoryFs: false
             },
             options
         );
 
-        const { template } = this.options;
+        const { templates } = this.options;
 
-        if (!template) {
+        if (!templates) {
             throw new Error("Options `template` must be a string or an array");
         }
 
         if (
-            (Array.isArray(template) && template.length === 0) ||
-            (template !== null &&
-                typeof template === "object" &&
-                Object.keys(template).length === 0)
+            (Array.isArray(templates) && templates.length === 0) ||
+            (templates !== null &&
+                typeof templates === "object" &&
+                Object.keys(templates).length === 0)
         ) {
             throw new Error("Options `template` should be not empty");
         }
 
-        if (!Array.isArray(template)) {
-            this.options.template = [template];
+        if (!Array.isArray(templates)) {
+            this.options.templates = [templates];
         }
     }
 
@@ -60,7 +60,7 @@ class NunjucksWebpackPlugin {
             );
 
             const {
-                template: templates,
+                templates,
                 context: globalContext,
                 callback: globalCallback
             } = this.options;
