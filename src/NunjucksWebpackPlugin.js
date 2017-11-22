@@ -11,8 +11,7 @@ class NunjucksWebpackPlugin {
                     options: {},
                     path: ""
                 },
-                templates: [],
-                writeToFileWhenMemoryFs: false
+                templates: []
             },
             options
         );
@@ -80,21 +79,20 @@ class NunjucksWebpackPlugin {
                         size: () => res.length,
                         source: () => res
                     },
-                    writeToFileWhenMemoryFs: template.writeToFileWhenMemoryFs
-                        ? template.writeToFileWhenMemoryFs
-                        : this.options.writeToFileWhenMemoryFs
+                    writeToFileEmit: template.writeToFileEmit
+                        ? template.writeToFileEmit
+                        : this.options.writeToFileEmit
                 };
             });
 
-            const isMemoryFileSystem =
-                compiler.outputFileSystem.constructor.name ===
-                "MemoryFileSystem";
             const promises = [];
 
             Object.keys(renderTemplates).forEach(dest => {
                 const templateObj = renderTemplates[dest];
 
-                if (templateObj.writeToFileWhenMemoryFs && isMemoryFileSystem) {
+                compilation.assets[dest] = templateObj.rawSource;
+
+                if (templateObj.writeToFileEmit) {
                     promises.push(
                         new Promise((resolve, reject) => {
                             const fileDest = path.join(output, dest);
@@ -112,8 +110,6 @@ class NunjucksWebpackPlugin {
                             );
                         })
                     );
-                } else {
-                    compilation.assets[dest] = templateObj.rawSource;
                 }
             });
 

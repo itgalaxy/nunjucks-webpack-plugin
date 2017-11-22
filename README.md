@@ -65,12 +65,10 @@ export default {
     -   `callback` - (optional) instead global `callback` (see above), 
         see [render](https://mozilla.github.io/nunjucks/api.html#render) third argument.
 
-    -   `writeToFileWhenMemoryFs` - (optional) instead global `writeToFileWhenMemoryFs` (see above), 
+    -   `writeToFileEmit` - (optional, default: false) - If set to `true` will emit 
+        to build folder and memory in combination with `webpack-dev-server`
 
 -   `configure` - (optional) see [configure](https://mozilla.github.io/nunjucks/api.html#configure) options.
-
--   `writeToFileWhenMemoryFs` - (optional, default: false) - write templates to disk when using Memory filesystem,
-    useful when use `watch`.
 
 ## Contribution
 

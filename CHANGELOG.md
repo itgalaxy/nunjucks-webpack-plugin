@@ -6,6 +6,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 # Head
 
+-   Changed: rename option from `writeToFileWhenMemoryFs` to `writeToFileEmit`.
+-   Changed: all `templates` now always emitted in webpack assets.
 -   Changed: rename options from `template` to `templates`.
 -   Changed: option `templates` should be always array.
 -   Removed: `webpack@1` support.
