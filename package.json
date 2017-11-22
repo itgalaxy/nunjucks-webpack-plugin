@@ -62,7 +62,7 @@
         "pify": "^3.0.0",
         "remark-cli": "^3.0.0",
         "remark-preset-lint-itgalaxy": "^6.0.0",
-        "tempy": "^0.1.0",
+        "tempy": "^0.2.1",
         "webpack": "^3.0.0",
         "husky": "^0.14.0",
         "lint-staged": "^5.0.0",
