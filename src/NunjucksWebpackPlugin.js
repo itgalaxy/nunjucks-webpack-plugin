@@ -40,10 +40,13 @@ class NunjucksWebpackPlugin {
     }
 
     compiler.plugin("emit", (compilation, callback) => {
-      nunjucks.configure(
-        this.options.configure.path,
-        this.options.configure.options
-      );
+      const configure =
+        this.options.configure instanceof nunjucks.Environment
+          ? this.options.configure
+          : nunjucks.configure(
+              this.options.configure.path,
+              this.options.configure.options
+            );
 
       const promises = [];
 
@@ -60,7 +63,7 @@ class NunjucksWebpackPlugin {
           fileDependencies.push(template.from);
         }
 
-        const res = nunjucks.render(
+        const res = configure.render(
           template.from,
           template.context ? template.context : null,
           template.callback ? template.callback : null

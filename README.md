@@ -75,7 +75,7 @@ export default {
   * `writeToFileEmit` - (optional, default: false) - If set to `true` will emit
     to build folder and memory in combination with `webpack-dev-server`
 
-* `configure` - (optional) see
+* `configure` - (optional) `object` or `nunjucks.Environment` see
   [configure](https://mozilla.github.io/nunjucks/api.html#configure) options.
 
 ## Contribution
