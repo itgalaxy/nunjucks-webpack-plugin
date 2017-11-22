@@ -9,42 +9,7 @@ import webpackConfigBase from "./config/config-base";
 
 const fixturesDir = path.resolve(__dirname, "fixtures");
 
-test("should execute successfully when option `template` is object", t => {
-    const tmpDirectory = tempy.directory();
-    const templateName = "test.njk";
-    const webpackConfig = Object.assign({}, webpackConfigBase, {
-        output: {
-            filename: "bundle.js",
-            path: tmpDirectory
-        },
-        plugins: [
-            new NunjucksWebpackPlugin({
-                templates: [
-                    {
-                        from: path.join(fixturesDir, templateName),
-                        to: path.basename(templateName, ".njk")
-                    }
-                ]
-            })
-        ]
-    });
-
-    return pify(webpack)(webpackConfig).then(stats => {
-        t.true(stats.compilation.errors.length === 0, "no compilation error");
-
-        return pify(fs.readFile)(
-            path.join(tmpDirectory, path.basename(templateName, ".njk"))
-        ).then(data => {
-            const contents = data.toString();
-
-            t.true(contents.trim() === "12345");
-
-            return true;
-        });
-    });
-});
-
-test("should execute successfully when option `template` is array", t => {
+test("should execute successfully when option `templates` is passed", t => {
     const tmpDirectory = tempy.directory();
     const templateName = "test.njk";
     const templateName1 = "test1.njk";
@@ -100,7 +65,7 @@ test("should execute successfully when option `template` is array", t => {
     });
 });
 
-test("should execute successfully when option `template` and `context` are passed", t => {
+test("should execute successfully when option `templates` with `context` are passed", t => {
     const tmpDirectory = tempy.directory();
     const templateName = "test2.njk";
     const webpackConfig = Object.assign({}, webpackConfigBase, {
@@ -110,20 +75,20 @@ test("should execute successfully when option `template` and `context` are passe
         },
         plugins: [
             new NunjucksWebpackPlugin({
-                context: {
-                    items: [
-                        {
-                            id: 1,
-                            title: "foo"
-                        },
-                        {
-                            id: 2,
-                            title: "bar"
-                        }
-                    ]
-                },
                 templates: [
                     {
+                        context: {
+                            items: [
+                                {
+                                    id: 1,
+                                    title: "foo"
+                                },
+                                {
+                                    id: 2,
+                                    title: "bar"
+                                }
+                            ]
+                        },
                         from: path.join(fixturesDir, templateName),
                         to: path.basename(templateName, ".njk")
                     }
@@ -148,7 +113,7 @@ test("should execute successfully when option `template` and `context` are passe
     });
 });
 
-test("should execute successfully when option `template` is object and `template.to` is absolute", t => {
+test("should execute successfully when option `templates` is passed and `template.to` is absolute", t => {
     const tmpDirectory = tempy.directory();
     const templateName = "test.njk";
     const webpackConfig = Object.assign({}, webpackConfigBase, {

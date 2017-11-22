@@ -43,14 +43,9 @@ class NunjucksWebpackPlugin {
                 this.options.configure.options
             );
 
-            const {
-                templates,
-                context: globalContext,
-                callback: globalCallback
-            } = this.options;
             const renderTemplates = {};
 
-            templates.forEach(template => {
+            this.options.templates.forEach(template => {
                 if (!template.from) {
                     throw new Error("Each template should have `from` option");
                 }
@@ -63,12 +58,10 @@ class NunjucksWebpackPlugin {
                     fileDependencies.push(template.from);
                 }
 
-                const localContext = template.context
-                    ? template.context
-                    : globalContext;
+                const localContext = template.context ? template.context : null;
                 const localCallback = template.callback
                     ? template.callback
-                    : globalCallback;
+                    : null;
 
                 const res = nunjucks.render(
                     template.from,
