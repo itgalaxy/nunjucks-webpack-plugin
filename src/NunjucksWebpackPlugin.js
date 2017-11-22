@@ -7,14 +7,11 @@ class NunjucksWebpackPlugin {
         this.options = Object.assign(
             {},
             {
-                callback: null,
                 configure: {
                     options: {},
                     path: ""
                 },
-                context: {},
-                templates: null,
-                to: null,
+                templates: [],
                 writeToFileWhenMemoryFs: false
             },
             options
@@ -22,21 +19,8 @@ class NunjucksWebpackPlugin {
 
         const { templates } = this.options;
 
-        if (!templates) {
-            throw new Error("Options `template` must be a string or an array");
-        }
-
-        if (
-            (Array.isArray(templates) && templates.length === 0) ||
-            (templates !== null &&
-                typeof templates === "object" &&
-                Object.keys(templates).length === 0)
-        ) {
-            throw new Error("Options `template` should be not empty");
-        }
-
-        if (!Array.isArray(templates)) {
-            this.options.templates = [templates];
+        if (!Array.isArray(templates) || templates.length === 0) {
+            throw new Error("Options `templates` must be an empty array");
         }
     }
 

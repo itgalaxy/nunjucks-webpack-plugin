@@ -22,10 +22,10 @@ import NunjucksWebpackPlugin from 'nunjucks-webpack-plugin';
 export default {
   plugins: [
     new NunjucksWebpackPlugin({
-        templates: {
+        templates: [{
             from: '/path/to/template.njk',
             to: 'template.html'
-        }
+        }]
     })
   ]
 };
@@ -53,7 +53,7 @@ export default {
 
 ## Options
 
--   `templates` - (require) `object` or `array` paths (`from`, `to` and etc.) to templates.
+-   `templates` - (require) `array` list of templates.
 
     -   `from` - (require) `string` path to template.
     
@@ -66,12 +66,6 @@ export default {
         see [render](https://mozilla.github.io/nunjucks/api.html#render) third argument.
 
     -   `writeToFileWhenMemoryFs` - (optional) instead global `writeToFileWhenMemoryFs` (see above), 
-
--   `context` - (optional) use if template `context` is null or undefined, 
-    see [render](https://mozilla.github.io/nunjucks/api.html#render) second argument.
-
--   `callback` - (optional) use if template `callback` is null or undefined,
-    see [render](https://mozilla.github.io/nunjucks/api.html#render) third argument.
 
 -   `configure` - (optional) see [configure](https://mozilla.github.io/nunjucks/api.html#configure) options.
 
