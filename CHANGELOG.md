@@ -7,6 +7,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 # Head
 
 -   Changed: rename options from `template` to `templates`.
+-   Removed: `webpack@1` support.
 -   Refactor: simplify code.
 
 # 3.0.0 - 2017-06-20
