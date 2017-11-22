@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 
 This project adheres to [Semantic Versioning](http://semver.org).
 
-## Head
+## 4.0.0 - 2017-11-22
 
 * Feature: adds ability to pass `configure` as `nunjucks.Environment`.
 * Fixed: all errors are sent into `compilation.errors` now.
