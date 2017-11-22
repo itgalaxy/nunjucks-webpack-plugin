@@ -1,10 +1,10 @@
 # nunjucks-webpack-plugin
 
-[![NPM version](https://img.shields.io/npm/v/nunjucks-webpack-plugin.svg)](https://www.npmjs.org/package/nunjucks-webpack-plugin) 
-[![Travis Build Status](https://img.shields.io/travis/itgalaxy/nunjucks-webpack-plugin/master.svg?label=build)](https://travis-ci.org/itgalaxy/nunjucks-webpack-plugin) 
+[![NPM version](https://img.shields.io/npm/v/nunjucks-webpack-plugin.svg)](https://www.npmjs.org/package/nunjucks-webpack-plugin)
+[![Travis Build Status](https://img.shields.io/travis/itgalaxy/nunjucks-webpack-plugin/master.svg?label=build)](https://travis-ci.org/itgalaxy/nunjucks-webpack-plugin)
 [![devDependencies Status](https://david-dm.org/itgalaxy/nunjucks-webpack-plugin/dev-status.svg)](https://david-dm.org/itgalaxy/nunjucks-webpack-plugin?type=dev)
 [![peerDependencies Status](https://david-dm.org/itgalaxy/nunjucks-webpack-plugin/peer-status.svg)](https://david-dm.org/itgalaxy/nunjucks-webpack-plugin?type=peer)
-[![Greenkeeper badge](https://badges.greenkeeper.io/itgalaxy/nunjucks-webpack-plugin.svg)](https://greenkeeper.io/)
+[![Greenkeeper badge](https://badges.greenkeeper.io/itgalaxy/nunjucks-webpack-plugin.svg)](https://greenkeeper.io)
 
 A webpack plugin for nunjucks.
 
@@ -17,15 +17,17 @@ npm install --save-dev nunjucks-webpack-plugin
 ## Usage
 
 ```js
-import NunjucksWebpackPlugin from 'nunjucks-webpack-plugin';
+import NunjucksWebpackPlugin from "nunjucks-webpack-plugin";
 
 export default {
   plugins: [
     new NunjucksWebpackPlugin({
-        templates: [{
-            from: '/path/to/template.njk',
-            to: 'template.html'
-        }]
+      templates: [
+        {
+          from: "/path/to/template.njk",
+          to: "template.html"
+        }
+      ]
     })
   ]
 };
@@ -34,18 +36,21 @@ export default {
 It is possible to use multiple templates:
 
 ```js
-import NunjucksWebpackPlugin from 'nunjucks-webpack-plugin';
+import NunjucksWebpackPlugin from "nunjucks-webpack-plugin";
 
 export default {
   plugins: [
     new NunjucksWebpackPlugin({
-        templates: [{
-            from: '/path/to/template.njk',
-            to: 'template.html'
-        }, {
-            from: '/path/to/next-template.njk',
-            to: 'next-template.html'
-        }]
+      templates: [
+        {
+          from: "/path/to/template.njk",
+          to: "template.html"
+        },
+        {
+          from: "/path/to/next-template.njk",
+          to: "next-template.html"
+        }
+      ]
     })
   ]
 };
@@ -53,22 +58,25 @@ export default {
 
 ## Options
 
--   `templates` - (require) `array` list of templates.
+* `templates` - (require) `array` list of templates.
 
-    -   `from` - (require) `string` path to template.
-    
-    -   `to` - (require) `string` destination path include filename and extension (relative `output` webpack option).
-    
-    -   `context` - (optional) instead global `context` (see above), 
-        see [render](https://mozilla.github.io/nunjucks/api.html#render) second argument.
-    
-    -   `callback` - (optional) instead global `callback` (see above), 
-        see [render](https://mozilla.github.io/nunjucks/api.html#render) third argument.
+  * `from` - (require) `string` path to template.
 
-    -   `writeToFileEmit` - (optional, default: false) - If set to `true` will emit 
-        to build folder and memory in combination with `webpack-dev-server`
+  * `to` - (require) `string` destination path include filename and extension
+    (relative `output` webpack option).
 
--   `configure` - (optional) see [configure](https://mozilla.github.io/nunjucks/api.html#configure) options.
+  * `context` - (optional) instead global `context` (see above), see
+    [render](https://mozilla.github.io/nunjucks/api.html#render) second
+    argument.
+
+  * `callback` - (optional) instead global `callback` (see above), see
+    [render](https://mozilla.github.io/nunjucks/api.html#render) third argument.
+
+  * `writeToFileEmit` - (optional, default: false) - If set to `true` will emit
+    to build folder and memory in combination with `webpack-dev-server`
+
+* `configure` - (optional) see
+  [configure](https://mozilla.github.io/nunjucks/api.html#configure) options.
 
 ## Contribution
 
