@@ -42,7 +42,7 @@ class NunjucksWebpackPlugin {
                 this.options.configure.options
             );
 
-            const renderTemplates = {};
+            const promises = [];
 
             this.options.templates.forEach(template => {
                 if (!template.from) {
@@ -74,32 +74,21 @@ class NunjucksWebpackPlugin {
                     webpackTo = path.relative(output, webpackTo);
                 }
 
-                renderTemplates[webpackTo] = {
-                    rawSource: {
-                        size: () => res.length,
-                        source: () => res
-                    },
-                    writeToFileEmit: template.writeToFileEmit
-                        ? template.writeToFileEmit
-                        : this.options.writeToFileEmit
+                const source = {
+                    size: () => res.length,
+                    source: () => res
                 };
-            });
 
-            const promises = [];
+                compilation.assets[webpackTo] = source;
 
-            Object.keys(renderTemplates).forEach(dest => {
-                const templateObj = renderTemplates[dest];
-
-                compilation.assets[dest] = templateObj.rawSource;
-
-                if (templateObj.writeToFileEmit) {
+                if (template.writeToFileEmit) {
                     promises.push(
                         new Promise((resolve, reject) => {
-                            const fileDest = path.join(output, dest);
+                            const fileDest = path.join(output, webpackTo);
 
                             return fs.writeFile(
                                 fileDest,
-                                templateObj.rawSource.source(),
+                                source.source(),
                                 error => {
                                     if (error) {
                                         return reject(error);
