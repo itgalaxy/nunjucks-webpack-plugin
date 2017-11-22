@@ -38,15 +38,10 @@ class NunjucksWebpackPlugin {
         if (!Array.isArray(template)) {
             this.options.template = [template];
         }
-
-        this.startTime = Date.now();
-        this.prevTimestamps = {};
     }
 
     apply(compiler) {
-        const assets = {};
         const fileDependencies = [];
-        const isWatch = compiler.options.watch;
 
         let output = compiler.options.output.path;
 
@@ -58,30 +53,11 @@ class NunjucksWebpackPlugin {
             output = compiler.options.devServer.outputPath;
         }
 
-        compiler.plugin("compilation", compilation => {
-            compilation.plugin("module-asset", (module, hashedFile) => {
-                const file = path.join(
-                    path.dirname(hashedFile),
-                    path.basename(module.userRequest)
-                );
-
-                assets[file] = path.join(output, hashedFile);
-            });
-        });
-
         compiler.plugin("emit", (compilation, callback) => {
             nunjucks.configure(
                 this.options.configure.path,
                 this.options.configure.options
             );
-
-            const changedFiles = Object.keys(compilation.fileTimestamps).filter(
-                watchfile =>
-                    (this.prevTimestamps[watchfile] || this.startTime) <
-                    (compilation.fileTimestamps[watchfile] || Infinity)
-            );
-
-            this.prevTimestamps = compilation.fileTimestamps;
 
             const {
                 template: templates,
@@ -99,14 +75,6 @@ class NunjucksWebpackPlugin {
                     throw new Error("Each template should have `to` option");
                 }
 
-                if (
-                    isWatch &&
-                    fileDependencies.indexOf(template.from) !== -1 &&
-                    changedFiles.indexOf(template.from) === -1
-                ) {
-                    return;
-                }
-
                 if (fileDependencies.indexOf(template.from) === -1) {
                     fileDependencies.push(template.from);
                 }
@@ -120,13 +88,7 @@ class NunjucksWebpackPlugin {
 
                 const res = nunjucks.render(
                     template.from,
-                    Object.assign(
-                        {},
-                        {
-                            assets
-                        },
-                        localContext
-                    ),
+                    Object.assign({}, localContext),
                     localCallback
                 );
 
