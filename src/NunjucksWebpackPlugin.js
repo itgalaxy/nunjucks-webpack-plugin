@@ -89,8 +89,17 @@ class NunjucksWebpackPlugin {
         }
       });
 
-      // eslint-disable-next-line promise/no-callback-in-promise
-      return Promise.all(promises).then(() => callback());
+      return (
+        Promise.all(promises)
+          // eslint-disable-next-line promise/no-callback-in-promise
+          .then(() => callback())
+          .catch(error => {
+            compilation.errors.push(error);
+
+            // eslint-disable-next-line promise/no-callback-in-promise
+            return callback();
+          })
+      );
     });
 
     compiler.plugin("after-emit", (compilation, callback) => {
