@@ -104,7 +104,7 @@ class NunjucksWebpackPlugin {
 
     compiler.plugin("after-emit", (compilation, callback) => {
       fileDependencies.forEach(file => {
-        if (compilation.fileDependencies.indexOf(file) === -1) {
+        if (Array.isArray(compilation.fileDependencies) && compilation.fileDependencies.indexOf(file) === -1) {
           compilation.fileDependencies.push(file);
         }
       });
