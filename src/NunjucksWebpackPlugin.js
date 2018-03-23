@@ -103,24 +103,19 @@ class NunjucksWebpackPlugin {
     });
 
     compiler.plugin("after-emit", (compilation, callback) => {
-      fileDependencies.forEach(file => {
-        let compilationFileDependencies;
-        let addFileDependency;
+      let compilationFileDependencies = compilation.fileDependencies;
+      let addFileDependency = file => compilation.fileDependencies.add(file);
 
-        if (Array.isArray(compilation.fileDependencies)) {
-          compilationFileDependencies = new Set(compilation.fileDependencies);
-          addFileDependency = file => compilation.fileDependencies.push(file);
-        } else {
-          compilationFileDependencies = compilation.fileDependencies;
-          addFileDependency = file => compilation.fileDependencies.add(file);
-        }
+      if (Array.isArray(compilation.fileDependencies)) {
+        compilationFileDependencies = new Set(compilation.fileDependencies);
+        addFileDependency = file => compilation.fileDependencies.push(file);
+      }
 
-        for (const file of fileDependencies) {
-          if (!compilationFileDependencies.has(file)) {
-            addFileDependency(file);
-          }
+      for (const file of fileDependencies) {
+        if (!compilationFileDependencies.has(file)) {
+          addFileDependency(file);
         }
-      });
+      }
 
       return callback();
     });
