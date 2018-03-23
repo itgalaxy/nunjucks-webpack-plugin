@@ -109,10 +109,10 @@ class NunjucksWebpackPlugin {
 
         if (Array.isArray(compilation.fileDependencies)) {
           compilationFileDependencies = new Set(compilation.fileDependencies);
-          addFileDependency = (file) => compilation.fileDependencies.push(file);
+          addFileDependency = file => compilation.fileDependencies.push(file);
         } else {
           compilationFileDependencies = compilation.fileDependencies;
-          addFileDependency = (file) => compilation.fileDependencies.add(file);
+          addFileDependency = file => compilation.fileDependencies.add(file);
         }
 
         for (const file of fileDependencies) {
