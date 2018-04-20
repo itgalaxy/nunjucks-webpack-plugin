@@ -39,7 +39,7 @@ class NunjucksWebpackPlugin {
       output = compiler.options.devServer.outputPath;
     }
 
-    compiler.plugin("emit", (compilation, callback) => {
+    compiler.hooks.run.tapAsync("NunjucksWebpackPlugin", (compilation, callback) => {
       const configure =
         this.options.configure instanceof nunjucks.Environment
           ? this.options.configure
@@ -102,7 +102,7 @@ class NunjucksWebpackPlugin {
       );
     });
 
-    compiler.plugin("after-emit", (compilation, callback) => {
+    compiler.hooks.run.tapAsync("NunjucksWebpackPlugin", (compilation, callback) => {
       let compilationFileDependencies = compilation.fileDependencies;
       let addFileDependency = file => compilation.fileDependencies.add(file);
 
