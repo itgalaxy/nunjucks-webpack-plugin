@@ -40,7 +40,8 @@ class NunjucksWebpackPlugin {
       output = compiler.options.devServer.outputPath;
     }
 
-    compiler.hooks.afterEmit.tap(pluginName, (compilation, callback) => {
+    compiler.hooks.afterEmit.tapAsync(pluginName, (compilation, callback) => {
+      console.log('inside after emit');
       const configure =
         this.options.configure instanceof nunjucks.Environment
           ? this.options.configure
@@ -103,7 +104,8 @@ class NunjucksWebpackPlugin {
       );
     });
 
-    compiler.hooks.afterEmit.tap(pluginName, (compilation, callback) => {
+    compiler.hooks.afterEmit.tapAsync(pluginName, (compilation, callback) => {
+      console.log('inside after emit');
       let compilationFileDependencies = compilation.fileDependencies;
       let addFileDependency = file => compilation.fileDependencies.add(file);
 
