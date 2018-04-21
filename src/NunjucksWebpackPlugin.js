@@ -3,6 +3,7 @@
 const fs = require("fs-extra");
 const path = require("path");
 const nunjucks = require("nunjucks");
+const pluginName = "NunjucksWebpackPlugin";
 
 class NunjucksWebpackPlugin {
   constructor(options) {
@@ -39,7 +40,7 @@ class NunjucksWebpackPlugin {
       output = compiler.options.devServer.outputPath;
     }
 
-    compiler.hooks.run.tapAsync("NunjucksWebpackPlugin", (compilation, callback) => {
+    compiler.hooks.afterEmit.tap(pluginName, (compilation, callback) => {
       const configure =
         this.options.configure instanceof nunjucks.Environment
           ? this.options.configure
@@ -102,7 +103,7 @@ class NunjucksWebpackPlugin {
       );
     });
 
-    compiler.hooks.run.tapAsync("NunjucksWebpackPlugin", (compilation, callback) => {
+    compiler.hooks.afterEmit.tap(pluginName, (compilation, callback) => {
       let compilationFileDependencies = compilation.fileDependencies;
       let addFileDependency = file => compilation.fileDependencies.add(file);
 
