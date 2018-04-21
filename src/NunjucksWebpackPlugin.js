@@ -40,7 +40,7 @@ class NunjucksWebpackPlugin {
       output = compiler.options.devServer.outputPath;
     }
 
-    compiler.hooks.afterEmit.tapAsync(pluginName, (compilation, callback) => {
+    compiler.hooks.emit.tapAsync(pluginName, (compilation, callback) => {
       console.log('inside after emit');
       const configure =
         this.options.configure instanceof nunjucks.Environment
