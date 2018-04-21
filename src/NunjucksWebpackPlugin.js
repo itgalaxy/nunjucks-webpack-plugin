@@ -3,6 +3,7 @@
 const fs = require("fs-extra");
 const path = require("path");
 const nunjucks = require("nunjucks");
+
 const pluginName = "NunjucksWebpackPlugin";
 
 class NunjucksWebpackPlugin {
@@ -40,8 +41,7 @@ class NunjucksWebpackPlugin {
       output = compiler.options.devServer.outputPath;
     }
 
-    compiler.hooks.emit.tapAsync(pluginName, (compilation, callback) => {
-      console.log('inside after emit');
+    const emitCallback = (compilation, callback) => {
       const configure =
         this.options.configure instanceof nunjucks.Environment
           ? this.options.configure
@@ -102,10 +102,9 @@ class NunjucksWebpackPlugin {
             return callback();
           })
       );
-    });
+    }
 
-    compiler.hooks.afterEmit.tapAsync(pluginName, (compilation, callback) => {
-      console.log('inside after emit');
+    const afterEmitCallback = (compilation, callback) => {
       let compilationFileDependencies = compilation.fileDependencies;
       let addFileDependency = file => compilation.fileDependencies.add(file);
 
@@ -121,7 +120,15 @@ class NunjucksWebpackPlugin {
       }
 
       return callback();
-    });
+    }
+
+    if(compiler.hooks) {
+      compiler.hooks.emit.tapAsync(pluginName, emitCallback);
+      compiler.hooks.afterEmit.tapAsync(pluginName, afterEmitCallback);
+    } else {
+      compiler.plugin("emit", emitCallback);
+      compiler.plugin("after-emit", afterEmitCallback);
+    }
   }
 }
 
