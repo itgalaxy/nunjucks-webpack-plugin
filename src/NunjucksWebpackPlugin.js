@@ -102,7 +102,7 @@ class NunjucksWebpackPlugin {
             return callback();
           })
       );
-    }
+    };
 
     const afterEmitCallback = (compilation, callback) => {
       let compilationFileDependencies = compilation.fileDependencies;
@@ -120,9 +120,9 @@ class NunjucksWebpackPlugin {
       }
 
       return callback();
-    }
+    };
 
-    if(compiler.hooks) {
+    if (compiler.hooks) {
       compiler.hooks.emit.tapAsync(pluginName, emitCallback);
       compiler.hooks.afterEmit.tapAsync(pluginName, afterEmitCallback);
     } else {
