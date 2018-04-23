@@ -1,6 +1,6 @@
 {
   "name": "nunjucks-webpack-plugin",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "A webpack plugin for nunjucks",
   "keywords": [
     "webpack",
@@ -36,40 +36,41 @@
     "node": ">= 4.3 < 5.0.0 || >= 5.10"
   },
   "dependencies": {
-    "fs-extra": "^4.0.2"
+    "fs-extra": "^5.0.0"
   },
   "devDependencies": {
-    "ava": "^0.23.0",
+    "ava": "^0.25.0",
+    "babel-eslint": "^8.2.3",
     "babel-preset-env": "^1.6.0",
     "babel-register": "^6.9.0",
     "eslint": "^4.1.1",
     "eslint-plugin-ava": "^4.2.1",
     "eslint-plugin-import": "^2.6.0",
-    "eslint-plugin-itgalaxy": "^57.0.0",
+    "eslint-plugin-itgalaxy": "^67.0.0",
     "eslint-plugin-jest": "^21.3.2",
     "eslint-plugin-jsx-a11y": "^6.0.0",
     "eslint-plugin-lodash": "^2.4.3",
-    "eslint-plugin-node": "^5.1.0",
+    "eslint-plugin-node": "^6.0.1",
     "eslint-plugin-prettier": "^2.1.2",
     "eslint-plugin-promise": "^3.5.0",
     "eslint-plugin-react": "^7.1.0",
-    "eslint-plugin-unicorn": "^3.0.0",
+    "eslint-plugin-unicorn": "^4.0.3",
     "npmpub": "^3.1.0",
     "npm-run-all": "^4.0.0",
     "nyc": "^11.0.3",
     "nunjucks": "^3.0.0",
     "pify": "^3.0.0",
-    "remark-cli": "^3.0.0",
+    "remark-cli": "^5.0.0",
     "remark-preset-lint-itgalaxy": "^12.0.0",
     "tempy": "^0.2.1",
-    "webpack": "^3.0.0",
+    "webpack": "^4.6.0",
     "husky": "^0.14.0",
-    "lint-staged": "^5.0.0",
+    "lint-staged": "^7.0.4",
     "prettier": "^1.5.2"
   },
   "peerDependencies": {
     "nunjucks": "^3.0.0",
-    "webpack": "^2.0.0 || ^3.0.0"
+    "webpack": "^2.0.0 || ^3.0.0 || ^4.0.0"
   },
   "scripts": {
     "precommit": "lint-staged",
