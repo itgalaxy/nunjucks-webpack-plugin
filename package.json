@@ -33,7 +33,7 @@
     "!**/__tests__"
   ],
   "engines": {
-    "node": ">= 4.3 < 5.0.0 || >= 5.10"
+    "node": ">= 6.0.0"
   },
   "dependencies": {
     "fs-extra": "^5.0.0"
