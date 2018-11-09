@@ -144,3 +144,40 @@ test("should execute successfully when option `templates` is passed and `templat
     });
   });
 });
+
+test("should execute successfully when using props from '__webpack__' base context object", t => {
+  const tmpDirectory = tempy.directory();
+  const templateName = "test3.njk";
+  const webpackConfig = Object.assign({}, webpackConfigBase, {
+    output: {
+      filename: "bundle.js",
+      path: tmpDirectory
+    },
+    plugins: [
+      new NunjucksWebpackPlugin({
+        templates: [
+          {
+            from: path.join(fixturesDir, templateName),
+            to: path.join(tmpDirectory, path.basename(templateName, ".njk"))
+          }
+        ]
+      })
+    ]
+  });
+
+  return pify(webpack)(webpackConfig).then(stats => {
+    t.true(stats.compilation.errors.length === 0, "no compilation error");
+
+    return pify(fs.readFile)(
+      path.join(tmpDirectory, path.basename(templateName, ".njk"))
+    ).then(data => {
+      const contents = data.toString();
+
+      t.true(
+        contents.trim() === '<script src="029f359d6e9653eafd07.js"></script>'
+      );
+
+      return true;
+    });
+  });
+});

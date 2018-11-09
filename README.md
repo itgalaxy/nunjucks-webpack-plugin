@@ -67,7 +67,10 @@ export default {
 
   * `context` - (optional) instead global `context` (see above), see
     [render](https://mozilla.github.io/nunjucks/api.html#render) second
-    argument.
+    argument. The following webpack compilation variables are also sent
+    through to the template under the `__webpack__` object:
+
+    * hash
 
   * `callback` - (optional) instead global `callback` (see above), see
     [render](https://mozilla.github.io/nunjucks/api.html#render) third argument.

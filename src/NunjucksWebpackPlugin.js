@@ -52,6 +52,12 @@ class NunjucksWebpackPlugin {
 
       const promises = [];
 
+      const baseContext = {
+        __webpack__: {
+          hash: compilation.hash
+        }
+      };
+
       this.options.templates.forEach(template => {
         if (!template.from) {
           throw new Error("Each template should have `from` option");
@@ -67,7 +73,7 @@ class NunjucksWebpackPlugin {
 
         const res = configure.render(
           template.from,
-          template.context ? template.context : null,
+          Object.assign(baseContext, template.context),
           template.callback ? template.callback : null
         );
 
