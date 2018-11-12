@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 
 This project adheres to [Semantic Versioning](http://semver.org).
 
+## 5.0.0
+
+* Feat: make webpack compilation hash value available to templates.
+* Changed: drop support `node@4`.
+
 ## 4.0.1 - 2018-04-23
 
 * Fixed: support `webpack@4`.
