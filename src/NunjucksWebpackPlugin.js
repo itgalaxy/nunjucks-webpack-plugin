@@ -3,6 +3,7 @@
 const fs = require("fs-extra");
 const path = require("path");
 const nunjucks = require("nunjucks");
+const htmlMinifier = require("html-minifier");
 
 const pluginName = "NunjucksWebpackPlugin";
 
@@ -24,7 +25,7 @@ class NunjucksWebpackPlugin {
       !Array.isArray(this.options.templates) ||
       this.options.templates.length === 0
     ) {
-      throw new Error("Options `templates` must be an empty array");
+      throw new Error("Options `templates` must be an non-empty array");
     }
   }
 
@@ -71,11 +72,15 @@ class NunjucksWebpackPlugin {
           fileDependencies.push(template.from);
         }
 
-        const res = configure.render(
+        let res = configure.render(
           template.from,
           Object.assign(baseContext, template.context),
           template.callback ? template.callback : null
         );
+
+        if ("minify" in template && template.minify) {
+          res = htmlMinifier.minify(res, template.minify);
+        }
 
         let webpackTo = template.to;
 
