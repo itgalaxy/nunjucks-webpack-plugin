@@ -181,3 +181,53 @@ test("should execute successfully when using props from '__webpack__' base conte
     });
   });
 });
+
+test("should execute successfully when option `templates` with `minify` are passed", t => {
+  const tmpDirectory = tempy.directory();
+  const templateName = "test2.njk";
+  const webpackConfig = Object.assign({}, webpackConfigBase, {
+    output: {
+      filename: "bundle.js",
+      path: tmpDirectory
+    },
+    plugins: [
+      new NunjucksWebpackPlugin({
+        templates: [
+          {
+            context: {
+              items: [
+                {
+                  id: 1,
+                  title: "foo"
+                },
+                {
+                  id: 2,
+                  title: "bar"
+                }
+              ]
+            },
+            from: path.join(fixturesDir, templateName),
+            minify: {
+              collapseWhitespace: true
+            },
+            to: path.basename(templateName, ".njk")
+          }
+        ]
+      })
+    ]
+  });
+
+  return pify(webpack)(webpackConfig).then(stats => {
+    t.true(stats.compilation.errors.length === 0, "no compilation error");
+
+    return pify(fs.readFile)(
+      path.join(tmpDirectory, path.basename(templateName, ".njk"))
+    ).then(data => {
+      const contents = data.toString();
+
+      t.regex(contents, /<h1>Posts<\/h1><ul><li>foo<\/li><li>bar<\/li><\/ul>/);
+
+      return true;
+    });
+  });
+});
