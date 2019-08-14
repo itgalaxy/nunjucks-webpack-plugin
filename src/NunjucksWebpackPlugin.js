@@ -25,7 +25,7 @@ class NunjucksWebpackPlugin {
       !Array.isArray(this.options.templates) ||
       this.options.templates.length === 0
     ) {
-      throw new Error("Options `templates` must be an non-empty array");
+      throw new Error("Options `templates` must be a non-empty array");
     }
   }
 
