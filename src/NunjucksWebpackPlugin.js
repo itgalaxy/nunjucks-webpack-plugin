@@ -88,7 +88,7 @@ class NunjucksWebpackPlugin {
           source: () => res
         };
 
-        compilation.assets[webpackTo] = source;
+        compilation.hooks.processAssets[webpackTo] = source;
 
         if (template.writeToFileEmit) {
           const fileDest = path.join(output, webpackTo);
